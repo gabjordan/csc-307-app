@@ -32,7 +32,6 @@ const users = {
     }
   ]
 };
-
 const findUserByName = (name) => {
   return users["users_list"].filter(
     (user) => user["name"] === name
@@ -47,13 +46,14 @@ const addUser = (user) => {
   return user;
 };
 
+app.use(express.json());
+
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
   res.send();
 });
 
-app.use(express.json());
 
 app.get("/users", (req, res) => {
   const name = req.query.name;
