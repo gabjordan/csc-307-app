@@ -32,9 +32,17 @@ const users = {
     }
   ]
 };
+
 const findUserByName = (name) => {
   return users["users_list"].filter(
     (user) => user["name"] === name
+  );
+};
+
+// TASK 2 - NAME & JOB
+const findUserByNameAndJob = (name, job) => {
+  return users["users_list"].filter(
+    (user) => user["name"] === name && user["job"] === job
   );
 };
 
@@ -46,6 +54,13 @@ const addUser = (user) => {
   return user;
 };
 
+// TASK 1 - HARD DELETE
+const deleteUser = (id) => {
+    users["users_list"] = users["users_list"].filter(
+    (user) => user["id"] !== id
+    );
+};
+
 app.use(express.json());
 
 app.post("/users", (req, res) => {
@@ -54,10 +69,27 @@ app.post("/users", (req, res) => {
   res.send();
 });
 
+// TASK 1 - HARD DELETE
+app.delete("/users/:id", (req, res) => {
+    const id = req.params["id"];
+    if (!findUserById(id)) {
+    res.status(404).send("Resource not found.");
+    } else {
+    deleteUser(id);
+    res.send();
+    }
+});
 
+// TASK 2 - NAME & JOB
 app.get("/users", (req, res) => {
   const name = req.query.name;
-  if (name != undefined) {
+  const job = req.query.job;
+  if (name != undefined && job != undefined) {
+    let result = findUserByNameAndJob(name, job);
+    result = { users_list: result };
+    res.send(result);
+  }
+  else if (name != undefined) {
     let result = findUserByName(name);
     result = { users_list: result };
     res.send(result);
