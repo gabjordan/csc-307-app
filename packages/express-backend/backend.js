@@ -50,12 +50,14 @@ const findUserByNameAndJob = (name, job) => {
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
+// IE3 TASK 2 - GENERATE ID
 const addUser = (user) => {
+  user.id = Math.floor(Math.random() * 1000000).toString(); //id range btwn 0 and 999999
   users["users_list"].push(user);
   return user;
 };
 
-// TASK 1 - HARD DELETE
+// IE2 TASK 1 - HARD DELETE
 const deleteUser = (id) => {
     users["users_list"] = users["users_list"].filter(
     (user) => user["id"] !== id
@@ -65,13 +67,15 @@ const deleteUser = (id) => {
 app.use(cors());
 app.use(express.json());
 
+// IE3 TASK 2 - GENERATE ID
+// IE3 TASK 3 - RETURN CREATED OBJECT
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+  const newUser = addUser(userToAdd);
+  res.status(201).send(newUser);
 });
 
-// TASK 1 - HARD DELETE
+// IE2 TASK 1 - HARD DELETE
 app.delete("/users/:id", (req, res) => {
     const id = req.params["id"];
     if (!findUserById(id)) {
@@ -82,7 +86,7 @@ app.delete("/users/:id", (req, res) => {
     }
 });
 
-// TASK 2 - NAME & JOB
+// IE2 TASK 2 - NAME & JOB
 app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
