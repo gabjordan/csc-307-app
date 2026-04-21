@@ -8,10 +8,21 @@ function MyApp() {
     const [characters, setCharacters] = useState([]);
 
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-        return i !== index;
-        });
-        setCharacters(updated);
+        const userToDelete = characters[index];
+
+        deleteUser(userToDelete.id)
+            .then((res) => {
+                console.log(res.status);
+                if (res.status === 204) {
+                    const updated = characters.filter((character, i) => {
+                        return i !== index;
+                    })
+                    setCharacters(updated);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     function fetchUsers() {
@@ -38,7 +49,14 @@ function MyApp() {
         });
 
         return promise;
-    }   
+    }
+    
+    // IE3 TASK 4 - DELETE ON BACKEND
+    function deleteUser(id) {
+        return fetch(`http://localhost:8000/users/${id}`, {
+            method: "DELETE",
+        });
+    }
 
     function updateList(person) {
         postUser(person)

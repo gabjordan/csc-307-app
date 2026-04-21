@@ -76,13 +76,14 @@ app.post("/users", (req, res) => {
 });
 
 // IE2 TASK 1 - HARD DELETE
+// IE3 TASK 4 - DELETE ON BACKEND
 app.delete("/users/:id", (req, res) => {
     const id = req.params["id"];
     if (!findUserById(id)) {
     res.status(404).send("Resource not found.");
     } else {
     deleteUser(id);
-    res.send();
+    res.status(204).send();
     }
 });
 
