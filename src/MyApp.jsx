@@ -72,7 +72,7 @@ function MyApp() {
     }
 
     return (
-        <div className="container">
+        <div classuserService="container">
             <Table
             characterData={characters}
             removeCharacter={removeOneCharacter}
