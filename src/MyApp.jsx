@@ -10,7 +10,7 @@ function MyApp() {
     function removeOneCharacter(index) {
         const userToDelete = characters[index];
 
-        deleteUser(userToDelete.id)
+        deleteUser(userToDelete._id)
             .then((res) => {
                 console.log(res.status);
                 if (res.status === 204) {

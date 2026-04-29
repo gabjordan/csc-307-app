@@ -2,7 +2,18 @@
 import express from "express";
 import cors from "cors";
 import userService from "./services/user-service.js"
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
+dotenv.config();
+
+const { MONGO_CONNECTION_STRING } = process.env;
+
+mongoose.set("debug", true);
+mongoose
+  .connect(MONGO_CONNECTION_STRING + "users") // connect to Db "users"
+  .catch((error) => console.log(error));
+  
 const app = express();
 const port = 8000;
 
@@ -12,8 +23,7 @@ app.use(express.json());
 // IE4 - removed old helper functions
 // modified call sites to use .then (for resolved promises) and .catch (for errors)
 
-// IE3 TASK 2 - GENERATE ID
-// IE3 TASK 3 - RETURN CREATED OBJECT
+// ADD USER
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   userService.addUser(userToAdd)
@@ -25,8 +35,7 @@ app.post("/users", (req, res) => {
     })
 });
 
-// IE2 TASK 1 - HARD DELETE
-// IE3 TASK 4 - DELETE ON BACKEND
+// DELETE
 app.delete("/users/:id", (req, res) => {
     const id = req.params["id"];
 
@@ -49,8 +58,7 @@ app.delete("/users/:id", (req, res) => {
       });
 });
 
-// removed find by both name AND job
-// find by name only OR job only
+// GET USERS
 app.get("/users", (req, res) => {
   const name = req.query.name;
   const job = req.query.job;
@@ -65,7 +73,7 @@ app.get("/users", (req, res) => {
     });
 });
 
-// find user by ID
+// FIND USER BY ID
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"];
 
