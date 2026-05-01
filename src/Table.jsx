@@ -16,6 +16,7 @@ function TableHeader() {
 
 /* TO DO:
 - removeCharacter -> removeTask (+ corresponding functions)
+- implement corresponding table fields w/ backend
 - same w/ edit button*/
 
 function TableBody(props) {
@@ -28,12 +29,12 @@ function TableBody(props) {
         <td>{row.repeating}</td>
         <td>
             <button onClick={() => props.removeCharacter(index)}>
-                Delete
+              Edit
             </button>
         </td>
         <td>
             <button onClick={() => props.removeCharacter(index)}>
-              Edit
+                Delete
             </button>
         </td>
       </tr>

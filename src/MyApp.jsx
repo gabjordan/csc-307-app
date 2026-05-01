@@ -77,8 +77,10 @@ function MyApp() {
             characterData={characters}
             removeCharacter={removeOneCharacter}
             />
-            <Form handleSubmit={updateList} />
         </div>
     );
 }
+
+//      <Form handleSubmit={updateList} />
+
 export default MyApp;
